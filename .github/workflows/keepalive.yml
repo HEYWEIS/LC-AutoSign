@@ -1,0 +1,36 @@
+name: Keepalive
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'   # 每月 1 号 UTC 0 点执行一次
+  workflow_dispatch:
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update time.md record
+        run: |
+          echo "# 保活执行时间记录" > time.md
+          echo "" >> time.md
+          echo "最近一次保活时间：$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> time.md
+          cat time.md
+
+      - name: Commit time.md
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add time.md
+          git commit -m "chore: keepalive $(date -u '+%Y-%m-%d %H:%M:%S UTC')" || echo "Nothing to commit"
+          git push
+
+      - name: Keepalive workflow
+        uses: gautamkrishnar/keepalive-workflow@v2
+        with:
+          time_elapsed: 50
+          commit_message: 'chore: keepalive auto commit'
