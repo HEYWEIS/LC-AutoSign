@@ -90,8 +90,8 @@ def sign_in(access_token, retries=3, backoff=10):
             if not sign_result.get('success'):
                 message = sign_result.get('message', '未知错误')
                 if '已经签到' in message:
-                    print(f"ℹ️ [账号{mask_account(customer_code)}] 今日已签到")
-                    return f"ℹ️ 账号({mask_account(customer_code)})：今日已签到，当前金豆总数：{integral_voucher}"
+                    print(f"ℹ️ [账号{mask_account(customer_code)}] 今日已签到，本次不推送")
+                    return None
                 else:
                     print(f"❌ [账号{mask_account(customer_code)}] 签到失败 - {message}")
                     return f"❌ 账号({mask_account(customer_code)})：签到失败 - {message}"
