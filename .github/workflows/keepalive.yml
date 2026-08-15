@@ -28,9 +28,3 @@ jobs:
           git add time.md
           git commit -m "chore: keepalive $(date -u '+%Y-%m-%d %H:%M:%S UTC')" || echo "Nothing to commit"
           git push
-
-      - name: Keepalive workflow
-        uses: gautamkrishnar/keepalive-workflow@v2
-        with:
-          time_elapsed: 50
-          commit_message: 'chore: keepalive auto commit'
